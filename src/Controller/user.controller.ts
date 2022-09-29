@@ -1,16 +1,23 @@
-import { User } from '../Model/user.model'
+import { UserInteractor } from '../Interactor/user.interactor';
+import { apiResponse } from '../Interface/APIResponse';
 
 export class UserController {
-  private users: Array<User> = [
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Doe' },
-  ];
+  userInteractor: UserInteractor;
 
-  getAllUsers(): Array<User> {
-    return this.users;
+  constructor() {
+    this.userInteractor = new UserInteractor();
   }
 
-  getUser(id: number): User | null {
-    return this.users.find((user) => user.id === id) || null;
+  fetch() {
+    const users = this.userInteractor.getAllUsers();
+    return apiResponse(users);
+  }
+
+  fetchById(id: string) {
+    const user = this.userInteractor.getUser(Number(id));
+    if (user === null) {
+      return apiResponse(null, 404, `User with id=${id} not found.`);
+    }
+    return apiResponse(user);
   }
 };

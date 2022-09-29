@@ -17,12 +17,12 @@ export class ExpressServer implements WebServer {
 
     const userController: UserController = new UserController();
     router.get('/users', (_: Request, res: Response) => {
-      const users = userController.getAllUsers();
-      res.send(users);
+      const response = userController.fetch();
+      return res.send(response);
     });
     router.get('/users/:id', (req: Request, res: Response) => {
-      const user = userController.getUser(Number(req.params.id));
-      res.send(user);
+      const response = userController.fetchById(req.params.id);
+      return res.send(response);
     });
 
     return router;
