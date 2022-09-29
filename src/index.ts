@@ -1,12 +1,5 @@
-import express, { Express, Request, Response } from 'express';
+import { ExpressServer } from './Server/ExpressServer';
+import { WebServer } from './Server/WebServer';
 
-const app: Express = express();
-const port: Number = 3000;
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + Typescript Server');  
-});
-
-app.listen(port, () => {
-  console.log(`Server running at https://localhost:${port}`);
-});
+const server: WebServer = new ExpressServer(3000);
+server.start();
